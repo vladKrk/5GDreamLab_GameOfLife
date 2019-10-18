@@ -6,15 +6,15 @@
 #include <Windows.h>
 
 class Game {
-	Table gameField; // Игровое поле
-	unsigned long long iteration; // Количество итераций игры
-	bool clearConsole; // Очистить консоль ( надо / не надо )
+	Table gameField; 
+	unsigned long long iteration; 
+	bool clearConsole; 
 public:
 	Game() : iteration(0), clearConsole(true) {
 		srand(time(NULL));
 		int rows, cols; 
 		int mode;
-		bool** f; // Вводимое поле
+		bool** inputField; 
 		int tmp1;
 		std::cout << "\t\t ========== Добро пожаловать в игру 'Жизнь' ==========" << std::endl;
 		std::cout << "\t\t ====== Для начала, введем необходимые данные ========" << std::endl;
@@ -30,7 +30,7 @@ public:
 		std::cout << "\t | Введите '2' для начала игры со своей конфигурацией                         |\n";
 		std::cout << "\t |> Ввод: ";
 		std::cin >> mode;
-		if (mode == 2) {   // Создание личной конфигурации поля
+		if (mode == 2) {   // Create custom field configuration
 			do { 
 				std::cout << "\t |> Введите количество рядов(0 < x < 1001 ): ";
 				std::cin >> rows;
@@ -41,9 +41,9 @@ public:
 				std::cin >> cols; 
 			} while (cols > 1000 || cols < 1);
 
-			f = new bool*[rows];
+			inputField = new bool*[rows];
 			for (int i = 0; i < rows; ++i)
-				f[i] = new bool[cols];
+				inputField[i] = new bool[cols];
 			std::cout << std::endl;
 			std::cout << "\t\t =================== Игровое поле ====================" << std::endl;
 			std::cout << "\t| 0 0 0 0 0 0 0 |\n";
@@ -56,30 +56,30 @@ public:
 			for (int i = 0; i < rows; ++i) {
 				std::cout << "\t|> ";
 				for (int j = 0; j < cols; ++j)
-					std::cin >> f[i][j];
+					std::cin >> inputField[i][j];
 			}
 		}
-		else { // Случайная конфигурация поля
+		else { // Random configuration of field
 			rows = rand() % 16 + 5, cols = rand() % 16 + 5;
-			f = new bool*[rows];
+			inputField = new bool*[rows];
 			for (int i = 0; i < rows; ++i)
-				f[i] = new bool[cols];
+				inputField[i] = new bool[cols];
 			for (int i = 0; i < rows; ++i)
 				for (int j = 0; j < cols; ++j)
-					f[i][j] = rand() % 2;
+					inputField[i][j] = rand() % 2;
 		}
-		gameField = Table(cols, rows, f); 
+		gameField = Table(cols, rows, inputField);
 		 
 		for (int i = 0; i < rows; ++i)
-			delete[] f[i];
-		delete[] f;
+			delete[] inputField[i];
+		delete[] inputField;
 	}
 
 	void playGame() {
 		do {
-			Sleep(1000); // Замедление изменения поколений (раз в 1 сек)
+			Sleep(1000); // Slowing down generations (once per second)
 			if(clearConsole)
-				system("cls"); // Очистка консоли
+				system("cls"); // Clear console
 			++iteration;
 			std::cout << "\t ======= " << iteration << " ======="<< std::endl;
 			std::cout << "======= Количество живых клеток: " << gameField.countOfAlive() << " =======" << std::endl;
@@ -89,8 +89,8 @@ public:
 				std::cout << "\nВведите '1', чтобы начать: ";
 				std::cin >> p;
 			}
-		} while (gameField.countOfAlive() > 0 && !gameField.nextGeneration()); // Пока есть хотя бы одна живая клетка
-																			   // и предыдущее поколение не равно текущему
+		} while (gameField.countOfAlive() > 0 && !gameField.nextGeneration()); // While exist at least one living element
+																			   // and previous generation is not equal to the current
 	}
 };
 
