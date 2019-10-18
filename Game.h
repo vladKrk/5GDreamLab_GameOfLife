@@ -5,12 +5,14 @@
 #include <time.h>
 #include <Windows.h>
 
+
 class Game {
 	Table gameField; 
 	unsigned long long iteration; 
 	bool clearConsole; 
 public:
 	Game() : iteration(0), clearConsole(true) {
+		setlocale(0, "Russian");
 		srand(time(NULL));
 		int rows, cols; 
 		int mode;

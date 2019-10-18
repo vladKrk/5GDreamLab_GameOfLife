@@ -2,14 +2,13 @@
 #define __TABLE_2019__
 
 class Table {
-	bool** field; // Игровое поле, каждый элемент которого 0 или 1
+	bool** field; 
 	int cols, rows;
 
 public:
 	Table(): cols(0), rows(0), field(nullptr) {}
 
 	Table(int col, int row, bool** f): cols(col), rows(row) {
-		setlocale(0, "Russian");
 		rows += 2;
 		cols += 2;
 
